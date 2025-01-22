@@ -6,6 +6,36 @@
     <title>Automation - Автоматизация бизнеса под ключ</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@vkontakte/vk-bridge@latest/dist/browser.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Сайт загружен. Текущий URL:', window.location.href);
+
+            if (typeof vkBridge === 'undefined') {
+                console.error('VK Bridge не загружен');
+            } else {
+                console.log('VK Bridge доступен');
+
+                vkBridge.send('VKWebAppInit')
+                    .then(() => {
+                        console.log('VK Bridge успешно инициализирован');
+                    })
+                    .catch((error) => {
+                        console.error('Ошибка инициализации VK Bridge:', error);
+                    });
+            }
+
+            const privacyCheckbox = document.getElementById('privacy-checkbox');
+            const emailInput = document.getElementById('email-input');
+            const submitButton = document.getElementById('submit-button');
+
+            privacyCheckbox.addEventListener('change', () => {
+                const isChecked = privacyCheckbox.checked;
+
+                emailInput.disabled = !isChecked;
+                submitButton.disabled = !isChecked;
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -28,51 +58,24 @@
             <button>Свяжитесь с нами</button>
         </section>
 
-        <section id="services">
-            <h2>Наши услуги</h2>
-            <p>Мы предоставляем следующие услуги для вашего бизнеса, и вот как они уже помогли нашим клиентам:</p>
-            <ul>
-                <li><strong>Чат-боты для Telegram, WhatsApp и других платформ:</strong> Создаем умных ботов для автоматизации общения с клиентами. Например, для одной из крупных розничных сетей мы разработали бота, который сократил время обработки клиентских запросов на 40%.</li>
-                <li><strong>Интеграция API:</strong> Связываем ваши системы и платформы, упрощая рабочие процессы. Например, мы интегрировали CRM и систему управления складом для клиента из логистики, что позволило минимизировать ошибки и повысить скорость обработки заказов.</li>
-                <li><strong>Автоматизация бизнес-процессов:</strong> Оптимизируем работу вашего бизнеса с помощью современных технологий. Мы помогли финансовой компании автоматизировать отчетность, что сократило затраты на бухгалтерию на 30%.</li>
-                <li><strong>Индивидуальные решения:</strong> Разрабатываем проекты под ваши задачи. Для стартапа в сфере EdTech мы создали уникальную платформу для управления курсами, которая увеличила конверсию клиентов на 25%.</li>
-            </ul>
-            <button>Узнать больше</button>
-        </section>
-
-        <section id="about">
-            <h2>О нас</h2>
-            <p>Мы – команда экспертов в области автоматизации. С 2025 года мы помогаем бизнесам внедрять современные технологии, упрощая работу и увеличивая доходы. За это время мы успешно реализовали более 100 проектов, включая автоматизацию процессов для компаний из розничной торговли, финансов и логистики.</p>
-
-            <h3>Почему выбирают нас?</h3>
-            <ul>
-                <li><strong>Богатый опыт и экспертиза:</strong> Более 100 успешно завершенных проектов, которые помогли нашим клиентам сократить время выполнения задач в среднем на 40% и увеличить эффективность работы команд.</li>
-                <li><strong>Индивидуальный подход:</strong> Мы разрабатываем решения, которые на 100% соответствуют вашим бизнес-целям, что подтверждено успехом наших клиентов в розничной торговле, логистике и финансовом секторе.</li>
-                <li><strong>Профессиональная поддержка 24/7:</strong> Наша команда обеспечивает круглосуточную помощь, с более чем 95% запросов решенных в течение первых 30 минут.</li>
-            </ul>
-
-            <h3>Отзывы наших клиентов</h3>
-            <ul>
-                <li><strong>Андрей, владелец интернет-магазина:</strong> Automation полностью изменил мой подход к клиентскому обслуживанию. Чат-бот отвечает на 90% вопросов, а я могу сосредоточиться на развитии бизнеса. Это не только сэкономило мне время, но и увеличило удовлетворенность моих клиентов.</li>
-                <li><strong>Елена, менеджер по подбору персонала:</strong> Команда Automation удивила меня скоростью и качеством работы. Они автоматизировали наш процесс найма, и теперь я могу уделять больше времени стратегическим задачам. Каждую неделю мы экономим до 10 часов рабочего времени!</li>
-                <li><strong>Дмитрий, директор по финансам:</strong> Решения Automation избавили нас от бумажной рутины. Отчетность формируется за считанные минуты, а затраты на бухгалтерию сократились на треть. Я рекомендую их всем, кто хочет повысить эффективность работы своей компании!</li>
-            </ul>
-        </section>
-
         <section id="contact">
             <h2>Свяжитесь с нами</h2>
             <p>Мы всегда готовы ответить на ваши вопросы. Свяжитесь с нами любым удобным способом.</p>
-            <form>
+            <form id="user-form">
                 <label>Имя (например, Иван Иванов):</label>
-                <input type="text" name="name">
+                <input type="text" name="name" required>
 
                 <label>Email (например, example@example.com):</label>
-                <input type="email" name="email">
+                <input type="email" name="email" required disabled id="email-input">
 
-                <label>Сообщение (опишите вашу проблему или задачу):</label>
-                <textarea name="message"></textarea>
+                <div>
+                    <input type="checkbox" id="privacy-checkbox">
+                    <label for="privacy-checkbox">
+                        Я согласен с <a href="/privacy-policy.html" target="_blank">Политикой конфиденциальности</a>
+                    </label>
+                </div>
 
-                <button type="submit">Отправить</button>
+                <button type="submit" disabled id="submit-button">Отправить</button>
             </form>
 
             <p>Email: <a href="mailto:automationaibots@gmail.com">automationaibots@gmail.com</a></p>
@@ -90,23 +93,5 @@
     <footer>
         <p>Ваши данные являются конфиденциальными и защищены. Подробнее о политике конфиденциальности и условиях использования вы можете узнать, связавшись с нами.</p>
     </footer>
-
-    <script>
-        console.log('Скрипт запущен!'); // Убедимся, что скрипт начинает исполняться
-
-        if (typeof vkBridge === 'undefined') {
-            console.error('VK Bridge не загружен');
-        } else {
-            console.log('VK Bridge доступен');
-
-            vkBridge.send('VKWebAppInit')
-                .then(() => {
-                    console.log('VK Bridge успешно инициализирован');
-                })
-                .catch((error) => {
-                    console.error('Ошибка инициализации VK Bridge:', error);
-                });
-        }
-    </script>
 </body>
 </html>
