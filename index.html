@@ -92,21 +92,21 @@
     </footer>
 
     <script>
-    console.log('Скрипт запущен!'); // Убедимся, что скрипт начинает исполняться
+        console.log('Скрипт запущен!'); // Убедимся, что скрипт начинает исполняться
 
-    if (typeof vkBridge === 'undefined') {
-        console.error('VK Bridge не загружен');
-    } else {
-        console.log('VK Bridge доступен');
+        if (typeof vkBridge === 'undefined') {
+            console.error('VK Bridge не загружен');
+        } else {
+            console.log('VK Bridge доступен');
 
-        vkBridge.send('VKWebAppInit')
-            .then(() => {
-                console.log('VK Bridge успешно инициализирован');
-            })
-            .catch((error) => {
-                console.error('Ошибка инициализации VK Bridge:', error);
-            });
-    }
-</script>
+            vkBridge.send('VKWebAppInit')
+                .then(() => {
+                    console.log('VK Bridge успешно инициализирован');
+                })
+                .catch((error) => {
+                    console.error('Ошибка инициализации VK Bridge:', error);
+                });
+        }
+    </script>
 </body>
 </html>
