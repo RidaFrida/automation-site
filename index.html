@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automation - Автоматизация бизнеса под ключ</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@vkontakte/vk-bridge@latest/dist/browser.min.js"></script>
 </head>
 <body>
     <header>
@@ -89,5 +90,16 @@
     <footer>
         <p>Ваши данные являются конфиденциальными и защищены. Подробнее о политике конфиденциальности и условиях использования вы можете узнать, связавшись с нами.</p>
     </footer>
+
+    <script>
+        // Инициализация VK Bridge
+        vkBridge.send('VKWebAppInit')
+            .then(() => {
+                console.log('VK Bridge успешно инициализирован');
+            })
+            .catch((error) => {
+                console.error('Ошибка инициализации VK Bridge:', error);
+            });
+    </script>
 </body>
 </html>
