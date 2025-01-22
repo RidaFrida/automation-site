@@ -92,15 +92,13 @@
     </footer>
 
     <script>
-    console.log('Скрипт VK Bridge загружен'); // Лог для проверки запуска скрипта
+    console.log('Скрипт запущен!'); // Убедимся, что скрипт начинает исполняться
 
-    // Проверка, что библиотека vkBridge загружена
     if (typeof vkBridge === 'undefined') {
-        console.error('VK Bridge не загружен или недоступен');
+        console.error('VK Bridge не загружен');
     } else {
         console.log('VK Bridge доступен');
 
-        // Инициализация VK Bridge
         vkBridge.send('VKWebAppInit')
             .then(() => {
                 console.log('VK Bridge успешно инициализирован');
